@@ -2,6 +2,8 @@
 import React, { useEffect } from 'react';
 import HeroBgAnimation from '../HeroBgAnimation';
 import Typewriter from 'typewriter-effect';
+import Button from './Button';  // Make sure this path is correct
+
 import {
   HeroContainer,
   HeroBg,
@@ -12,22 +14,22 @@ import {
   Title,
   Span,
   SubTitle,
-  ResumeButton,
 } from './HeroStyle';
 import { Bio } from '../../data/constants';
 import Image from 'next/image';
 import Tilt from 'react-parallax-tilt';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import StarryBackground from '../Background/StarryBackground';
 
 const HeroSection = () => {
-  // ✅ useEffect must be inside the component
   useEffect(() => {
     AOS.init({ duration: 800, easing: 'ease-in-out', offset: 50 });
   }, []);
 
   return (
-    <div id="about" data-aos='zoom-in'>
+    <div id="about" className="mt-20" data-aos='zoom-in'>
+      <StarryBackground/>
       <HeroContainer>
         <HeroBg>
           <HeroBgAnimation />
@@ -50,9 +52,14 @@ const HeroSection = () => {
               </Span>
             </TextLoop>
             <SubTitle>{Bio.description}</SubTitle>
-            <ResumeButton href={Bio.resume} target="_blank">
+            {/* Replaced ResumeButton with Button component */}
+            <Button 
+              href={Bio.resume} 
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Check Resume
-            </ResumeButton>
+            </Button>
           </HeroLeftContainer>
 
           <HeroRightContainer id="Right">

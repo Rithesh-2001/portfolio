@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { useTheme } from '@/contexts/ThemeContext';
+import Navigation from '../Navigation';
 
 export default function Navbar() {
   const { theme } = useTheme();
@@ -18,7 +19,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b"
+      className="fixed top-0 p-2 left-0 w-full z-50 backdrop-blur-md border-b"
       style={{
         backgroundColor: `${theme.secondary}80`,
         borderColor: theme.primary,
@@ -26,7 +27,7 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo / Name */}
+          {/* Logo */}
           <Link
             href="/"
             className="text-2xl font-bold hover:opacity-80 transition-opacity"
@@ -36,18 +37,9 @@ export default function Navbar() {
             Rithesh
           </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex space-x-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.path}
-                className="font-medium transition-colors"
-                style={{ color: theme.tertiary80 }}
-              >
-                {link.name}
-              </Link>
-            ))}
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <Navigation links={navLinks} />
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -68,8 +60,12 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.path}
-                className="block px-4 py-2 rounded-md font-medium transition-colors"
-                style={{ color: theme.tertiary80 }}
+                className="block px-4 py-2 rounded-md font-medium transition-all
+                  hover:underline hover:underline-offset-4 hover:decoration-2"
+                style={{ 
+                  color: theme.tertiary80,
+                  textDecorationColor: theme.primary
+                }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}

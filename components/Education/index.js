@@ -8,51 +8,104 @@ import { education } from '../../data/constants';
 import EducationCard from '../Cards/EducationCard';
 import Image from 'next/image';
 
-// Styled Components
-const Container = styled.div`
-  background-attachment: fixed;
-  padding: 80px 0;
-  color: #fff;
+const SectionContainer = styled.section`
   position: relative;
+  width: 100%;
+  padding: 80px 0;
+  overflow: hidden;
+  
+  /* Dark overlay with transparency */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 8, 24, 0.85);
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    padding: 60px 0;
+  }
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    padding: 0 15px;
+  }
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-align: center;
-  margin-bottom: 60px;
-  color: white;
+  margin-bottom: 40px;
+  color: ${({ theme }) => theme.text_primary};
+  position: relative;
+  z-index: 3;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+    margin-bottom: 30px;
+  }
 `;
 
 const TimelineLine = styled.div`
   position: absolute;
-  top: 200px;
+  top: 160px;
   left: 50%;
   transform: translateX(-50%);
   width: 4px;
-  height: 75%;
+  height: calc(100% - 200px);
   background: #854ce6;
-  box-shadow: 0 0 10px #854ce6, 0 0 20px #854ce6;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    left: 20px;
+    transform: none;
+    height: calc(100% - 100px);
+    top: 100px;
+    width: 2px;
+  }
 `;
 
-// 👇 notice $left here — it's a transient prop for styled-components
 const TimelineItem = styled.div`
   display: flex;
   justify-content: ${({ $left }) => ($left ? 'flex-start' : 'flex-end')};
-  margin: 50px 0;
+  margin: 30px 0;
   position: relative;
   z-index: 2;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+    margin: 25px 0;
+  }
 `;
 
-const ContentWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid #854ce6;
+const CardWrapper = styled.div`
+  width: calc(50% - 60px);
   padding: 20px;
-  border-radius: 16px;
-  width: 45%;
+  border-radius: 10px;
+  background: rgba(10, 8, 24, 0.7);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 15px rgba(133, 76, 230, 0.4);
-  z-index: 2;
+  border: 1px solid rgba(133, 76, 230, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin: ${({ $left }) => $left ? '0 60px 0 0' : '0 0 0 60px'};
+  transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 60px);
+    margin: 0 0 0 60px;
+    padding: 15px;
+  }
 `;
 
 const Dot = styled.div`
@@ -65,8 +118,15 @@ const Dot = styled.div`
   transform: translate(-50%, -50%);
   overflow: hidden;
   background: white;
-  box-shadow: 0 0 10px white;
+  box-shadow: 0 0 10px #fff;
   z-index: 3;
+
+  @media (max-width: 768px) {
+    left: 20px;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+  }
 `;
 
 const DotImage = ({ src, alt }) => (
@@ -76,36 +136,38 @@ const DotImage = ({ src, alt }) => (
       alt={alt}
       width={40}
       height={40}
-      style={{ objectFit: 'cover', borderRadius: '50%' }}
+      style={{ objectFit: 'cover' }}
     />
   </Dot>
 );
 
 const EducationSection = () => {
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({ duration: 800, once: true });
   }, []);
 
   return (
-    <Container id="education">
-      <SectionTitle data-aos="fade-up">Education</SectionTitle>
-      <TimelineLine />
-      {education.map((edu, index) => {
-        const left = index % 2 === 0;
-        return (
-          <TimelineItem
-            key={index}
-            $left={left}
-            data-aos={left ? 'fade-right' : 'fade-left'}
-          >
-            <DotImage src={edu.img} alt={edu.school} />
-            <ContentWrapper>
-              <EducationCard education={edu} />
-            </ContentWrapper>
-          </TimelineItem>
-        );
-      })}
-    </Container>
+    <SectionContainer id="education">
+      <ContentContainer>
+        <SectionTitle data-aos="fade-up">Education</SectionTitle>
+        <TimelineLine />
+        {education.map((edu, index) => {
+          const left = index % 2 === 0;
+          return (
+            <TimelineItem
+              key={index}
+              $left={left}
+              data-aos={left ? 'fade-right' : 'fade-left'}
+            >
+              <DotImage src={edu.img} alt={edu.school} />
+              <CardWrapper $left={left}>
+                <EducationCard education={edu} />
+              </CardWrapper>
+            </TimelineItem>
+          );
+        })}
+      </ContentContainer>
+    </SectionContainer>
   );
 };
 

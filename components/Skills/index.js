@@ -4,9 +4,6 @@ import Tilt from 'react-parallax-tilt'
 import AOS from 'aos';
 import { skills } from '../../data/constants'
 
-// Install react-tilt if not already installed
-// npm install react-tilt
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,31 +58,59 @@ const SkillsContainer = styled.div`
   justify-content: center;
 `;
 
-const Skill = styled.div`
+const GradientBorder = styled.div`
+  position: relative;
   width: 100%;
   max-width: 500px;
-  background: rgba(255, 255, 255, 0.1); /* Changed to transparent white */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Changed to white border */
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 18px 36px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: scale(1.05);
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Lighter border on hover */
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.6);
+  border-radius: 20px;
+  background: transparent;
+  transition: all 0.3s;
+  z-index: 1;
+  
+  /* Gradient border */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px; 
+    padding: 2px;
+    background: linear-gradient(45deg, #00ff75, #3700ff);
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    transition: all 0.3s;
   }
 
+  &:hover::before {
+    background: linear-gradient(45deg, #00ff75, #3700ff);
+    box-shadow: 0px 0px 20px 1px rgba(0, 255, 117, 0.6);
+  }
+  
   @media (max-width: 768px) {
     max-width: 400px;
-    padding: 10px 36px;
   }
   @media (max-width: 500px) {
     max-width: 330px;
-    padding: 10px 36px;
+  }
+`;
+
+const Skill = styled.div`
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 18px 36px;
+  transition: all 0.3s ease;
+  height: 100%;
+
+  &:hover {
+    transform: scale(0.98);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.6);
   }
 `;
 
@@ -151,17 +176,19 @@ const Skills = () => {
                 "max-glare": 0.2,
               }}
             >
-              <Skill>
-                <SkillTitle>{skill.title}</SkillTitle>
-                <SkillList>
-                  {skill.skills.map((item, idx) => (
-                    <SkillItem key={item.name || idx}>
-                      <SkillImage src={item.image} />
-                      {item.name}
-                    </SkillItem>
-                  ))}
-                </SkillList>
-              </Skill>
+              <GradientBorder>
+                <Skill>
+                  <SkillTitle>{skill.title}</SkillTitle>
+                  <SkillList>
+                    {skill.skills.map((item, idx) => (
+                      <SkillItem key={item.name || idx}>
+                        <SkillImage src={item.image} />
+                        {item.name}
+                      </SkillItem>
+                    ))}
+                  </SkillList>
+                </Skill>
+              </GradientBorder>
             </Tilt>
           ))}
         </SkillsContainer>

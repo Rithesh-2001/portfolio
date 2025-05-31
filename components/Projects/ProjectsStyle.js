@@ -84,21 +84,55 @@ export const Divider = styled.div`
     background: ${({ theme }) => theme.primary};
 `
 
-
 export const CardContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 28px;
     flex-wrap: wrap;
-    // display: grid;
-    // grid-template-columns: repeat(3, 1fr);
-    // grid-gap: 32px;
-    // grid-auto-rows: minmax(100px, auto);
-    // @media (max-width: 960px) {
-    //     grid-template-columns: repeat(2, 1fr);
-    // }
-    // @media (max-width: 640px) {
-    //     grid-template-columns: repeat(1, 1fr);
-    // }
+`;
+
+// New component for the gradient border
+export const GradientBorder = styled.div`
+  position: relative;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(45deg, #00ff75, #3700ff);
+  transition: all 0.3s;
+  z-index: 1;
+  
+  &:hover {
+    box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+    transform: scale(1.02);
+  }
+`;
+
+// Updated project card with glass effect
+export const ProjectCard = styled.div`
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 14px; // Slightly smaller to fit inside the border
+  padding: 18px 36px;
+  transition: all 0.3s ease;
+  height: 100%;
+
+  &:hover {
+    transform: scale(0.98);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.6);
+  }
+
+  @media (max-width: 768px) {
+    max-width: 350px;
+    padding: 10px 36px;
+  }
+  @media (max-width: 500px) {
+    max-width: 300px;
+    padding: 10px 36px;
+  }
 `;

@@ -1,150 +1,120 @@
-import React from 'react'
-import styled from 'styled-components'
-
-const Document = styled.img`
-    display: none;
-    height: 70px;
-    width: fit-content;
-    background-color: #000;
-    border-radius: 10px;
-    &:hover{
-        cursor: pointer;
-        opacity: 0.8;
-    }
-`
-
-const Description = styled.div`
-    width: 100%;
-    font-size: 15px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_primary + 99};
-    margin-bottom: 10px;
-    @media only screen and (max-width: 768px){
-        font-size: 12px;
-    }
-`
-
-const Span = styled.span`
-overflow: hidden;
-display: -webkit-box;
-max-width: 100%;
--webkit-line-clamp: 4;
--webkit-box-orient: vertical;
-text-overflow: ellipsis;
-`
+import React from 'react';
+import styled from 'styled-components';
 
 const Card = styled.div`
-    width: 650px;
-    border-radius: 10px;
-    box-shadow: rgba(23, 92, 230, 0.15) 0px 4px 24px;
-    padding: 12px 16px;
-    justify-content: space-between;
     position: relative;
-    overflow: hidden;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(10, 8, 24, 0.6);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(133, 76, 230, 0.5);
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    cursor: pointer;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            45deg,
+            rgba(133, 76, 230, 0.1),
+            rgba(76, 140, 230, 0.1)
+        );
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 0;
+    }
+
+    &:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 24px rgba(133, 76, 230, 0.2);
+
+        &::before {
+            transform: translate(-50%, -50%) scale(2);
+        }
+    }
+`;
+
+const TopSection = styled.div`
+    display: flex;
     gap: 12px;
-    transition: all 0.3s ease-in-out;
-    &:hover{
-        box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
-        transform: translateY(-5px);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+`;
+
+const InstitutionLogo = styled.img`
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    background: white;
+    padding: 2px;
+    
+    ${Card}:hover & {
+        transform: scale(1.1);
     }
-    @media only screen and (max-width: 768px){
-        padding: 10px;
-        gap: 8px;
-        width: 300px;
-    }
+`;
 
-    &:hover ${Document}{
-        display: flex;
-    }
+const Details = styled.div`
+    flex: 1;
+`;
 
-    &:hover ${Span}{
-        overflow: visible;
-        -webkit-line-clamp: unset;
+const InstitutionName = styled.h3`
+    font-size: 16px;
+    margin: 0;
+    color: ${({ theme }) => theme.text_primary};
+    transition: color 0.3s ease;
+`;
 
-    }
-    border: 0.1px solid #854CE6;
-`
-
-const Top = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 12px
-`
-
-const Image = styled.img`
-    height: 50px;
-    background-color: #000;
-    border-radius: 10px;
-    margin-top: 4px;
-    @media only screen and (max-width: 768px){
-        height: 40px;
-    }
-`
-
-const Body = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column; 
-`
-
-
-const Name = styled.div`
-    font-size: 18px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text_primary + 99};
-    @media only screen and (max-width: 768px){
-        font-size: 14px;
-    }
-`
-
-const Degree = styled.div`
+const DegreeInfo = styled.p`
     font-size: 14px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.text_secondary + 99};
-    @media only screen and (max-width: 768px){
-        font-size: 12px;
-    }
-`
+    margin: 4px 0;
+    color: ${({ theme }) => theme.text_secondary};
+    transition: color 0.3s ease;
+`;
 
-const Date = styled.div`
+const DateRange = styled.span`
     font-size: 12px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.text_secondary + 80};
-    @media only screen and (max-width: 768px){
-        font-size: 10px;
-    }
-`
+    color: ${({ theme }) => theme.text_secondary + 99};
+`;
 
 const Grade = styled.div`
     font-size: 14px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.text_secondary + 99};
-    @media only screen and (max-width: 768px){
-        font-size: 12px;
+    color: ${({ theme }) => theme.text_secondary};
+    margin-top: 8px;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+
+    strong {
+        color: ${({ theme }) => theme.primary};
     }
-`
-
-
+`;
 
 const EducationCard = ({ education }) => {
     return (
         <Card>
-            <Top>
-                <Image src={education.img} />
-                <Body>
-                    <Name>{education.school}</Name>
-                    <Degree>{education.degree}</Degree>
-                    <Date>{education.date}</Date>
-                </Body>
-            </Top>
-            <Grade><b>Grade / Percentage: </b>{education.grade}</Grade>
-            <Description>
-                <Span>{education.desc}</Span>
-            </Description>
+            <TopSection>
+                <InstitutionLogo src={education.img} alt={education.school} />
+                <Details>
+                    <InstitutionName>{education.school}</InstitutionName>
+                    <DegreeInfo>{education.degree}</DegreeInfo>
+                    <DateRange>{education.date}</DateRange>
+                </Details>
+            </TopSection>
+            <Grade><strong>Grade:</strong> {education.grade}</Grade>
         </Card>
-    )
-}
+    );
+};
 
-export default EducationCard
+export default EducationCard;

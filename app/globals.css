@@ -57,3 +57,103 @@ body {
   text-align: center;
   margin-bottom: 40px;
 }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+.dark .modal-content {
+  background: #2d3748;
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.dark .close-button {
+  color: #ccc;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Tech stack pills */
+.tech-pill {
+  display: inline-block;
+  background: #e2e8f0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.dark .tech-pill {
+  background: #4a5568;
+}
+
+/* Button styles */
+.github-button {
+  display: inline-block;
+  background: #3182ce;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.demo-button {
+  display: inline-block;
+  background: #38a169;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
