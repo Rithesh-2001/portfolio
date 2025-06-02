@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import ProjectCard from '../Cards/ProjectCards';
-import ProjectModal from '../ProjectModal';
-import { projects } from '../../data/constants';
+"use client"
+
+import React, { useState } from "react"
+import styled from "styled-components"
+import ProjectCard from "../Cards/ProjectCards"
+import ProjectModal from "../ProjectModal"
+import { projects } from "../../data/constants"
 
 const Container = styled.div`
     background: ${({ theme }) => theme.card_light};
@@ -17,7 +19,7 @@ const Container = styled.div`
         padding: 32px 16px;
     }
     z-index: 1;
-`;
+`
 
 const Wrapper = styled.div`
     position: relative;
@@ -32,7 +34,7 @@ const Wrapper = styled.div`
     @media (max-width: 960px) {
         flex-direction: column;
     }
-`;
+`
 
 const Title = styled.div`
     font-size: 42px;
@@ -44,7 +46,7 @@ const Title = styled.div`
         margin-top: 12px;
         font-size: 32px;
     }
-`;
+`
 
 const Desc = styled.div`
     font-size: 18px;
@@ -55,7 +57,7 @@ const Desc = styled.div`
         margin-top: 12px;
         font-size: 16px;
     }
-`;
+`
 
 const ToggleButtonGroup = styled.div`
     display: flex;
@@ -68,15 +70,17 @@ const ToggleButtonGroup = styled.div`
     @media (max-width: 768px) {
         font-size: 12px;
     }
-`;
+`
 
+// Fixed Issue #1: Changed active prop to use data-active attribute instead
 const ToggleButton = styled.div`
     padding: 8px 18px;
     border-radius: 6px;
     cursor: pointer;
-    ${({ active, theme }) =>
-        active && `
-        background: ${theme.primary + 20};
+    ${({ $active, theme }) =>
+      $active &&
+      `
+    background: ${theme.primary + 20};
     `}
     &:hover {
         background: ${({ theme }) => theme.primary + 8};
@@ -85,12 +89,12 @@ const ToggleButton = styled.div`
         padding: 6px 8px;
         border-radius: 4px;
     }
-`;
+`
 
 const Divider = styled.div`
     width: 1.5px;
     background: ${({ theme }) => theme.primary};
-`;
+`
 
 const CardContainer = styled.div`
     display: flex;
@@ -98,53 +102,38 @@ const CardContainer = styled.div`
     align-items: center;
     gap: 28px;
     flex-wrap: wrap;
-`;
+`
 
 const Projects = () => {
-    const [toggle, setToggle] = useState('all');
-    const [selectedProject, setSelectedProject] = useState(null);
+  const [toggle, setToggle] = useState("all")
+  const [selectedProject, setSelectedProject] = useState(null)
 
-    return (
-        <Container id="projects">
-            <Wrapper>
-                <Title>Projects</Title>
-                <Desc>
-                    I've worked on various projects across different domains. Here are some highlights.
-                </Desc>
-                <ToggleButtonGroup>
-                    {['all', 'web app', 'android app', 'machine learning'].map((category) => (
-                        <React.Fragment key={category}>
-                            <ToggleButton
-                                active={toggle === category}
-                                onClick={() => setToggle(category)}
-                            >
-                                {category.replace('-', ' ').toUpperCase()}
-                            </ToggleButton>
-                            {category !== 'machine learning' && <Divider />}
-                        </React.Fragment>
-                    ))}
-                </ToggleButtonGroup>
-                <CardContainer>
-                    {(toggle === 'all' ? projects : projects.filter(
-                        (item) => item.category === toggle
-                    )).map((project) => (
-                        <ProjectCard
-                            key={project.id}
-                            project={project}
-                            onClick={() => setSelectedProject(project)}
-                        />
-                    ))}
-                </CardContainer>
-                
-                {selectedProject && (
-                    <ProjectModal
-                        project={selectedProject}
-                        onClose={() => setSelectedProject(null)}
-                    />
-                )}
-            </Wrapper>
-        </Container>
-    );
-};
+  return (
+    <Container id="projects">
+      <Wrapper>
+        <Title>Projects</Title>
+        <Desc>I have worked on various projects across different domains. Here are some highlights.</Desc>
+        <ToggleButtonGroup>
+          {["all", "web app", "android app", "machine learning"].map((category) => (
+            <React.Fragment key={category}>
+              {/* Fixed Issue #1: Changed active={toggle === category} to $active={toggle === category} */}
+              <ToggleButton $active={toggle === category} onClick={() => setToggle(category)}>
+                {category.replace("-", " ").toUpperCase()}
+              </ToggleButton>
+              {category !== "machine learning" && <Divider />}
+            </React.Fragment>
+          ))}
+        </ToggleButtonGroup>
+        <CardContainer>
+          {(toggle === "all" ? projects : projects.filter((item) => item.category === toggle)).map((project) => (
+            <ProjectCard key={project.id} project={project} onClick={() => setSelectedProject(project)} />
+          ))}
+        </CardContainer>
 
-export default Projects;
+        {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
+      </Wrapper>
+    </Container>
+  )
+}
+
+export default Projects

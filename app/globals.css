@@ -24,6 +24,16 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hide default cursor when custom cursor is active */
+html.has-custom-cursor {
+  cursor: none !important;
+}
+
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
 /* AOS animations */
 [data-aos] {
   transition-property: transform, opacity;
@@ -107,8 +117,12 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
